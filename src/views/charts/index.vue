@@ -1,8 +1,8 @@
 <template>
   <div class="dashboard-container">
-    <el-form :inline="true" :model="form_data">
-      <el-row>
-        <el-col :span="20" :offset="7">
+    <el-row>
+      <el-col :span="20" :offset="2">
+        <el-form :inline="true" :model="form_data">
           <el-form-item label="选择时间范围">
             <el-date-picker
                     v-model="query.time_range"
@@ -12,15 +12,12 @@
                     end-placeholder="结束日期">
             </el-date-picker>
           </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="20" :offset="6">
+
           <el-form-item label="审批人">
-            <el-input v-model="query.input" placeholder="审批人"></el-input>
+            <el-input v-model="input" placeholder="审批人"></el-input>
           </el-form-item>
           <el-form-item label="活动区域">
-            <el-select v-model="query.value" placeholder="活动区域">
+            <el-select v-model="value" placeholder="活动区域">
               <el-option
                       v-for="item in options"
                       :key="item.value"
@@ -32,16 +29,14 @@
           <el-form-item>
             <el-button type="primary" @click="onSubmit">查询</el-button>
           </el-form-item>
-        </el-col>
-      </el-row>
-    </el-form>
+        </el-form>
+      </el-col>
+    </el-row>
     <div id="chart" :style="{width: '100%', height: '600px'}"/>
   </div>
 </template>
 
 <script>
-    import {mapGetters} from 'vuex'
-
     import ecStat from 'echarts-stat'
     // 引入 ECharts 主模块
     const echarts = require('echarts/lib/echarts')
@@ -56,7 +51,6 @@
     window.onresize = function () {
         window.chart.resize()
     }
-
     export default {
         name: 'Dashboard',
         data() {
@@ -182,11 +176,6 @@
                     }]
                 })
             }
-        },
-        computed: {
-            ...mapGetters([
-                'name'
-            ])
         }
     }
 </script>

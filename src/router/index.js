@@ -71,21 +71,33 @@ export const constantRoutes = [
       {
         path: 'error-table',
         name: 'ErrorTable',
-        component: () => import('@/views/tree/index'),
+        component: () => import('@/views/errorTable/index'),
         meta: { title: '错误信息查询', icon: 'table' }
       }
     ]
   },
 
   {
-    path: '/form',
+    path: '/charts',
     component: Layout,
     children: [
       {
         path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
+        name: 'Charts',
+        component: () => import('@/views/charts/index'),
+        meta: { title: '数据图表', icon: 'chart' }
+      }
+    ]
+  },
+  {
+    path: '/setting',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'Setting',
+        component: () => import('@/views/setting/index'),
+        meta: { title: '测量设置', icon: 'setting' }
       }
     ]
   },

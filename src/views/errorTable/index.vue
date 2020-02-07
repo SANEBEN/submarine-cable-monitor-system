@@ -4,7 +4,7 @@
       <el-row>
         <el-col :span="6" offset="3">
           <el-form-item label="相别">
-            <el-select v-model="value" placeholder="相别">
+            <el-select v-model="form_data.mutually" placeholder="相别">
               <el-option
                       v-for="item in options"
                       :key="item.value"
@@ -15,14 +15,11 @@
           </el-form-item>
         </el-col>
         <el-col :span="10">
-          <el-form-item label="选择时间范围">
+          <el-form-item label="选择开始时间">
             <el-date-picker
-                    v-model="query.time_range"
-                    type="datetimerange"
-                    range-separator="至"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期"
-                    clearable>
+                    v-model="form_data.start_time"
+                    type="datetime"
+                    placeholder="选择开始时间">
             </el-date-picker>
           </el-form-item>
         </el-col>
@@ -38,33 +35,25 @@
           <el-row>
             <el-col :span="6" offset="3">
               <el-form-item label="序号">
-                <el-input v-model="input" placeholder="序号"></el-input>
+                <el-input v-model="form_data.number" placeholder="序号"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="数据文件名">
-                <el-input v-model="input" placeholder="数据文件名"></el-input>
+              <el-form-item label="频移位置号">
+                <el-input v-model="form_data.frequency_shift_position" placeholder="频移位置号"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="测量设置序号">
-                <el-input v-model="input" placeholder="测量设置序号"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="6" offset="3">
-              <el-form-item label="频移">
-                <el-input v-model="input" placeholder="频移"></el-input>
+              <el-form-item label="所属序号">
+                <el-input v-model="form_data.b_number" placeholder="测量设置序号"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
         </el-collapse-item>
       </el-collapse>
 
-
     </el-form>
-
+    <!--表格-->
     <el-table
             v-loading="listLoading"
             :data="list"
@@ -73,17 +62,15 @@
             fit
             highlight-current-row
     >
-      <el-table-column align="center" label="表格名（相别）" width="95" prop="mutually">
-      </el-table-column>
       <el-table-column align="center" label="序号" width="95" prop="id">
+      </el-table-column>
+      <el-table-column align="center" label="相别" prop="start_time">
+      </el-table-column>
+      <el-table-column align="center" label="所属序号" prop="setting_id">
       </el-table-column>
       <el-table-column align="center" label="开始时间" prop="start_time">
       </el-table-column>
-      <el-table-column align="center" label="结束时间" prop="end_time">
-      </el-table-column>
-      <el-table-column align="center" label="测量设置序号" prop="setting_id">
-      </el-table-column>
-      <el-table-column align="center" label="数据文件名" prop="file_name">
+      <el-table-column align="center" label="频移位置号" prop="frequency_art">
       </el-table-column>
       <el-table-column align="center" label="频移" prop="frequency_art">
       </el-table-column>
@@ -92,6 +79,7 @@
       <el-table-column align="center" label="应力" prop="stress">
       </el-table-column>
     </el-table>
+    <!--分页组件-->
     <el-row style="margin-top: 20px">
       <el-col :offset="7">
         <el-pagination
@@ -125,9 +113,13 @@
             return {
                 list: null,
                 listLoading: true,
-                currentPage: '',
-                query: {
-                    time_range: ''
+                currentPage: 1,
+                form_data: {
+                    number: '',
+                    mutually: '',
+                    start_time: '',
+                    b_number:'',
+                    frequency_shift_position:''
                 },
                 options: [{
                     value: 'A',
@@ -138,7 +130,7 @@
                 }, {
                     value: 'C',
                     label: 'C相'
-                }],
+                }]
             }
         },
         created() {
@@ -157,9 +149,6 @@
             },
             handleCurrentChange(val) {
                 console.log(`当前页: ${val}`);
-            },
-            search(query) {
-                console.log("查询")
             }
         }
     }
